@@ -1,6 +1,6 @@
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-import org.apache.log4j.BasicConfigurator;
+import com.datastax.driver.core.Statement;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        BasicConfigurator.configure();
-
         Scanner in = new Scanner(System.in);
         System.out.print("serverIp: ");
         String serverIp  = in.nextLine();
@@ -24,7 +22,11 @@ public class Main {
         String user = in.nextLine();
         System.out.print("password: ");
         String password = in.nextLine();
-
+        /*String serverIp = args[0].toString();
+        String keyspace = args[1].toString();
+        String user = args[2].toString();
+        String password = args[3].toString();
+        */
         Logic logic = new Logic();
         CassandraConnection cassConnection = new CassandraConnection();
         List<String> result = logic.getList();
@@ -39,6 +41,13 @@ public class Main {
                 .withCredentials(user,password)
                 .build();
         Session session = cluster.connect(keyspace);
+
+
+        /*Cluster cluster = Cluster.builder()
+                .addContactPoints(args[0])
+                .withCredentials(args[1],args[2])
+                .build();
+        Session session = cluster.connect(args[3]);*/
 
         //Вставка элементов в базу данных
         rows.stream().filter((p)->p.getInitialData()!=null).forEach(p->cassConnection.insertDataToBD(p.getInitialData(),session));
