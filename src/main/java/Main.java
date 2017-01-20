@@ -31,14 +31,15 @@ public class Main {
         CassandraConnection cassConnection = new CassandraConnection();
         List<String> result = logic.getList();
         List <DataResult> rows = result.stream().map(Logic::getData).collect(Collectors.toList());
-        rows.stream().filter((p)->p.getInCorrectString()!=null).forEach(p->System.out.println("Ошибка в строке: " +
-                p.getInCorrectString()));
-        rows.stream().filter((p)->p.getInitialData()!=null).forEach(p->System.out.println(p.getInitialData()));
+        //rows.stream().filter((p)->p.getInCorrectString()!=null).forEach(p->System.out.println("Ошибка в строке: " +
+          //      p.getInCorrectString()));
+        //rows.stream().filter((p)->p.getInitialData()!=null).forEach(p->System.out.println(p.getInitialData()));
 
         //Подключение к кластеру
         Cluster cluster = Cluster.builder()
                 .addContactPoints(serverIp)
                 .withCredentials(user,password)
+                .withPort(9042)
                 .build();
         Session session = cluster.connect(keyspace);
 
