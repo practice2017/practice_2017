@@ -24,7 +24,7 @@ public class CassandraConnection {
                         "servtype, " +
                         "termid, " +
                         "totalpayamount" +
-                        ") values (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)");
+                        ") values (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?) if not exists");
         session.execute(prepared.bind(dt.psPayNum, dt.account, dt.errCode, dt.errText, dt.flags, dt.inDate,
                 dt.inStatus, dt.parentPayId, dt.payAmount, dt.payType, dt.servCode, dt.servType, dt.termId, dt.totalPayAmount));
     }

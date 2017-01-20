@@ -74,9 +74,5 @@
             <artifactId>cassandra-commons-migrations</artifactId>
             <version>0.2.3</version>
         </dependency>
-
     </dependencies>
-
-
-
 </project>

@@ -22,17 +22,13 @@ public class Main {
         String user = in.nextLine();
         System.out.print("password: ");
         String password = in.nextLine();
-        /*String serverIp = args[0].toString();
-        String keyspace = args[1].toString();
-        String user = args[2].toString();
-        String password = args[3].toString();
-        */
+
         Logic logic = new Logic();
         CassandraConnection cassConnection = new CassandraConnection();
         List<String> result = logic.getList();
         List <DataResult> rows = result.stream().map(Logic::getData).collect(Collectors.toList());
-        //rows.stream().filter((p)->p.getInCorrectString()!=null).forEach(p->System.out.println("Ошибка в строке: " +
-          //      p.getInCorrectString()));
+        rows.stream().filter((p)->p.getInCorrectString()!=null).forEach(p->System.out.println("Ошибка в строке: " +
+                p.getInCorrectString()));
         //rows.stream().filter((p)->p.getInitialData()!=null).forEach(p->System.out.println(p.getInitialData()));
 
         //Подключение к кластеру
@@ -42,13 +38,6 @@ public class Main {
                 .withPort(9042)
                 .build();
         Session session = cluster.connect(keyspace);
-
-
-        /*Cluster cluster = Cluster.builder()
-                .addContactPoints(args[0])
-                .withCredentials(args[1],args[2])
-                .build();
-        Session session = cluster.connect(args[3]);*/
 
         //Вставка элементов в базу данных
         rows.stream().filter((p)->p.getInitialData()!=null).forEach(p->cassConnection.insertDataToBD(p.getInitialData(),session));
